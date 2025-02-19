@@ -60,6 +60,9 @@
                 <a href="{{ route('login') }}">
                     <button>PPIC</button>
                 </a>
+                <a href="{{ route('halaman_utama') }}">
+                    <button>Dashboard</button>
+                </a>
             </div>
         </div>
     </div>
