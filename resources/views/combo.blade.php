@@ -53,14 +53,9 @@
     <div class="background">
         <div class="content">
             <h1>Selamat Datang di Halaman Kami</h1>
-            <p>Ini adalah halaman upervisor PT Dharma Poliplast</p>
-            <p>Silahkan Login Sesuai Supervisor nya</p>
+            <p>Ini adalah halaman untuk PPIC</p>
+            <p>Silahkan</p>
             <div class="buttons">
-                <a href="{{ route('halaman_utama') }}">
-                    <button>Grafik</button>
-                </a>
-                <a href="{{ route('login') }}">
-                    <button>Operator</button>
                 </a>
                 <a href="{{ route('login') }}">
                     <button>PPIC</button>
