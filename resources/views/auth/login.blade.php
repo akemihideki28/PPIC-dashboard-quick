@@ -1,104 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Login PPIC</title>
-  <link href="{{ asset('admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700&display=swap" rel="stylesheet">
-  <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(to right, #4e73df, #224abe);
-      font-family: 'Poppins', sans-serif;
-    }
-    .bg-login-image {
-      background-image: url('https://lokerbumn.com/wp-content/uploads/2023/09/PT-Dharma-Poliplast-02-1536x924.jpg');
-      background-size: cover;
-      background-position: center;
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    }
-    .card {
-      border-radius: 10px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    }
-    .btn-primary {
-      background-color: #4e73df;
-      border: none;
-      transition: 0.3s;
-    }
-    .btn-primary:hover {
-      background-color: #3752a6;
-    }
-    .top-left-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      border: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PT Dharma Poliplast</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body, html {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://lokerbumn.com/wp-content/uploads/2023/09/PT-Dharma-Poliplast-02.jpg') no-repeat center center/cover;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+        .login-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1.5s ease-in-out;
+            width: 350px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .remember-me input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            color: white;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #0056b3, #003d82);
+            transform: scale(1.05);
+        }
+        .rollback-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #dc3545, #a71d2a);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .rollback-btn:hover {
+            background: linear-gradient(135deg, #a71d2a, #7a141d);
+            transform: scale(1.05);
+        }
+        .links {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .links a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <a href="{{ route('combo') }}" class="btn btn-light top-left-button">
-    <i class="fas fa-arrow-left"></i> Kembali
-  </a>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-xl-10 col-lg-12 col-md-9">
-        <div class="card o-hidden border-0 shadow-lg my-5">
-          <div class="card-body p-0">
-            <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-              <div class="col-lg-6">
-                <div class="p-5">
-                  <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                  </div>
-                  <form action="{{ route('login.action') }}" method="POST" class="user">
-                    @csrf
-                    @if ($errors->any())
-                      <div class="alert alert-danger">
-                        <ul>
-                          @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                          @endforeach
-                        </ul>
-                      </div>
-                    @endif
-                    <div class="form-group">
-                      <input name="email" type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Enter Email Address...">
-                    </div>
-                    <div class="form-group">
-                      <input name="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox small">
-                        <input name="remember" type="checkbox" class="custom-control-input" id="customCheck">
-                        <label class="custom-control-label" for="customCheck">Remember Me</label>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-user">Login</button>
-                  </form>
-                  <hr>
-                  <div class="text-center">
-                    <a class="small" href="{{ route('register') }}">Create an Account!</a>
-                  </div>
-                </div>
-              </div>
+    <button type="button" class="rollback-btn" onclick="window.location.href='{{ route('combo') }}'">← Back</button>
+    <div class="overlay"></div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="{{ route('login.action') }}" method="POST">
+            @csrf
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
-          </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember Me</label>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <div class="links">
+            <a href="{{ route('register') }}">Create an Account</a>
         </div>
-      </div>
     </div>
-  </div>
-  <script src="{{ asset('admin_assets/vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('admin_assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('admin_assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-  <script src="{{ asset('admin_assets/js/sb-admin-2.min.js') }}"></script>
 </body>
 </html>
