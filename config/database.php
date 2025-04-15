@@ -62,6 +62,23 @@ return [
             ]) : [],
         ],
 
+        'laragon' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_LARAGON', '127.0.0.1'),
+            'port' => env('DB_PORT_LARAGON', '3306'),
+            'database' => env('DB_DATABASE_LARAGON', 'laragon_test'),
+            'username' => env('DB_USERNAME_LARAGON', 'root'),
+            'password' => env('DB_PASSWORD_LARAGON', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+        ],
+        
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
