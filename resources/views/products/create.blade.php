@@ -123,6 +123,7 @@
 
     function fillData(inputElement) {
         var noMesin = inputElement.value.trim();
+
         var namaMesinInput = document.getElementById('nama_mesin');
         var partNoInput = document.getElementById('part_no');
 
@@ -133,28 +134,27 @@
         var partNoButton = partNoDropdown.nextElementSibling;
 
         if (existingMachines.hasOwnProperty(noMesin)) {
-            // Tampilkan popup alert
-            alert("No Mesin yang dimasukkan sudah ada. Nama Mesin & Part No akan otomatis terisi dan terkunci.");
+            alert("No Mesin sudah pernah didaftarkan. Nama Mesin akan otomatis terkunci, namun Part No bisa diganti.");
+
             namaMesinInput.value = existingMachines[noMesin].nama_mesin;
             namaMesinInput.setAttribute('readonly', true);
-            partNoInput.value = existingMachines[noMesin].part_no;
-            partNoInput.setAttribute('readonly', true);
-
-            // Sembunyikan dropdown & tombol dropdown
             namaMesinDropdown.style.display = 'none';
             namaMesinButton.style.display = 'none';
-            partNoDropdown.style.display = 'none';
-            partNoButton.style.display = 'none';
-        } else {
-            // Jika nomor mesin baru, kosongkan nama mesin & part no, lalu izinkan input manual
-            namaMesinInput.value = '';
-            namaMesinInput.removeAttribute('readonly');
+
+            // Part No bebas dipilih / ditulis
             partNoInput.value = '';
             partNoInput.removeAttribute('readonly');
-
-            // Tampilkan dropdown & tombol dropdown
+            partNoDropdown.style.display = 'block';
+            partNoButton.style.display = 'inline';
+        } else {
+            // No mesin baru, semua bebas diisi
+            namaMesinInput.value = '';
+            namaMesinInput.removeAttribute('readonly');
             namaMesinDropdown.style.display = 'block';
             namaMesinButton.style.display = 'inline';
+
+            partNoInput.value = '';
+            partNoInput.removeAttribute('readonly');
             partNoDropdown.style.display = 'block';
             partNoButton.style.display = 'inline';
         }
@@ -162,6 +162,7 @@
 
     function fillDataDropdown(selectElement) {
         var noMesin = selectElement.value;
+
         var namaMesinInput = document.getElementById('nama_mesin');
         var partNoInput = document.getElementById('part_no');
 
@@ -172,19 +173,20 @@
         var partNoButton = partNoDropdown.nextElementSibling;
 
         if (existingMachines.hasOwnProperty(noMesin)) {
-            // Isi Nama Mesin & Part No lalu kunci
+            alert("No Mesin sudah pernah didaftarkan. Nama Mesin akan otomatis terkunci, namun Part No bisa diganti.");
+
             namaMesinInput.value = existingMachines[noMesin].nama_mesin;
             namaMesinInput.setAttribute('readonly', true);
-            partNoInput.value = existingMachines[noMesin].part_no;
-            partNoInput.setAttribute('readonly', true);
-
-            // Sembunyikan dropdown & tombol dropdown
             namaMesinDropdown.style.display = 'none';
             namaMesinButton.style.display = 'none';
-            partNoDropdown.style.display = 'none';
-            partNoButton.style.display = 'none';
+
+            partNoInput.value = '';
+            partNoInput.removeAttribute('readonly');
+            partNoDropdown.style.display = 'block';
+            partNoButton.style.display = 'inline';
         }
     }
 </script>
+
 
 @endsection

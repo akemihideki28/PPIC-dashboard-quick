@@ -78,8 +78,8 @@
         <h1>Selamat Datang di PT Dharma Poliplast</h1>
         <p>Silakan pilih bagian yang sesuai:</p>
         <div class="buttons">
-            <a href="{{ route('login') }}" class="btn">PPIC</a>
-            <a href="{{ route('halaman_utama') }}" class="btn">Dashboard</a>
+            <a href="{{ route('login', ['destination' => 'products']) }}" class="btn">Database</a>
+            <a href="{{ route('login', ['destination' => 'dashboard']) }}" class="btn">Dashboard</a>
         </div>
     </div>
 </body>

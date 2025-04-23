@@ -67,9 +67,10 @@
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="/profile">
-                            <i class="fas fa-user fa-sm fa-fw mr-2"></i> Profile
-                        </a>
+                    <a class="dropdown-item" href="{{ route('profile') }}">
+    <i class="fas fa-user fa-sm fa-fw mr-2"></i> Profile
+</a>
+
                         <a class="dropdown-item" href="{{ route('products.logs') }}">
                             <i class="fas fa-file-alt fa-sm fa-fw mr-2"></i> View Logs
                         </a>
