@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - PT Dharma Poliplast</title>
+    <title>Login PPIC</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='50' height='100' fill='%23005BAA'/><rect x='50' width='50' height='100' fill='%23E31937'/><text x='50' y='60' font-family='Arial' font-size='40' text-anchor='middle' fill='white'>D+M</text></svg>">
     <style>
         * {
             margin: 0;

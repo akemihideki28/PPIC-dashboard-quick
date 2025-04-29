@@ -67,3 +67,13 @@ Route::middleware('auth')->group(function () {
 
 // Combo
 Route::get('/combo', [ComboController::class, 'index'])->name('combo');
+
+//hapus log 
+// Inside your products route group
+Route::delete('logs/{id}', [ProductController::class, 'deleteLog'])->name('products.logs.delete');
+Route::delete('logs', [ProductController::class, 'deleteAllLogs'])->name('products.logs.delete-all');
+
+//untuk download log
+// Add this with your other download routes
+Route::get('/logs/download', [ProductController::class, 'downloadLogsExcel'])
+     ->name('logs.download-excel');

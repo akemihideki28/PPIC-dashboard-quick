@@ -103,14 +103,25 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        $product = Product::findOrFail($id);
-  
-        $product->delete();
-  
-        return redirect()->route('products')->with('success', 'product deleted successfully');
-    }
+ // Di file ProductController.php
+ public function destroy(string $id)
+ {
+     $product = Product::findOrFail($id);
+ 
+     // Simpan log sebelum menghapus
+     ProductLog::create([
+         'product_id' => $product->id,
+         'no_mesin' => $product->no_mesin,
+         'action' => 'delete',
+         'user' => auth()->user()->name,
+         'detail' => 'Produk dihapus (produk yang ke : '.$product->id.')',
+     ]);
+ 
+     $product->delete(); // Soft delete
+ 
+     return redirect()->route('products')->with('success', 'Produk berhasil dihapus');
+ }
+ 
     /*file download txt*/
     public function downloadTxt()
 {
@@ -194,9 +205,41 @@ public function downloadXml()
     return response($xml->asXML(), 200, $headers);
 }
 
+// Di ProductController
 public function showLogs()
 {
-    $logs = ProductLog::with('product')->orderBy('created_at', 'desc')->get();
+    $logs = ProductLog::with(['product' => function($query) {
+        $query->withTrashed();
+    }])->orderBy('created_at', 'desc')->get();
+
     return view('products.logs', compact('logs'));
+}
+public function deleteLog($id)
+{
+    // Hardcoded password check
+    if (request()->password !== '1234') {
+        return redirect()->route('products.logs')->with('error', 'Password salah!');
+    }
+
+    $log = ProductLog::findOrFail($id);
+    $log->delete();
+
+    return redirect()->route('products.logs')->with('success', 'Log berhasil dihapus');
+}
+
+public function deleteAllLogs()
+{
+    // Hardcoded password check
+    if (request()->password !== '1234') {
+        return redirect()->route('products.logs')->with('error', 'Password salah!');
+    }
+
+    ProductLog::truncate();
+
+    return redirect()->route('products.logs')->with('success', 'Semua log berhasil dihapus');
+}
+public function downloadLogsExcel()
+{
+    return \Excel::download(new \App\Exports\LogsExport, 'logs_'.date('Y-m-d_H-i').'.xlsx');
 }
 }
