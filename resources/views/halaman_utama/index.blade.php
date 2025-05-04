@@ -8,176 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --accent-color: #e74c3c;
-            --dark-color: #2c3e50;
-            --light-color: #ecf0f1;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            padding: 20px;
-            color: #333;
-        }
-        
-        .dashboard-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            border: none;
-            transition: transform 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .card-header {
-            background-color: var(--dark-color);
-            color: white;
-            border-radius: 10px 10px 0 0 !important;
-            font-weight: 600;
-            padding: 12px 20px;
-        }
-        
-        .filters {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 25px;
-        }
-        
-        .chart-container {
-            position: relative;
-            height: 100%;
-            min-height: 300px;
-            padding: 15px;
-        }
-        
-        .summary-card {
-            text-align: center;
-            padding: 15px;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .summary-card .value {
-            font-size: 2.2rem;
-            margin: 10px 0;
-        }
-        
-        .summary-card .label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        #oeeSummary { background: linear-gradient(135deg, #3498db, #2c3e50); }
-        #availabilitySummary { background: linear-gradient(135deg, #2ecc71, #27ae60); }
-        #performanceSummary { background: linear-gradient(135deg, #f39c12, #e67e22); }
-        #qualitySummary { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
-        
-        .time-period {
-            font-size: 1.2rem;
-            color: var(--dark-color);
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        
-        .date-range-selector {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .date-range-selector .form-control {
-            max-width: 200px;
-        }
-        
-        .calendar-icon {
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
-            background: #f0f0f0;
-        }
-        
-        .calendar-icon:hover {
-            background: #e0e0e0;
-        }
-        
-        /* Pareto chart specific styles */
-        .pareto-line {
-            border-color: #e74c3c !important;
-        }
-        
-        .machine-bar {
-            transition: all 0.3s ease;
-        }
-        
-        .machine-bar:hover {
-            opacity: 0.8;
-        }
-        
-        /* Modal styles */
-        .modal-title {
-            color: var(--dark-color);
-            font-weight: bold;
-        }
-        
-        .modal-body {
-            padding: 20px;
-        }
-        
-        .modal-card {
-            background: #f5f7fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .reason-badge {
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            display: inline-block;
-        }
-        
-        .downtime-table th {
-            background-color: var(--dark-color);
-            color: white;
-        }
-        
-        .clickable-chart {
-            cursor: pointer;
-        }
-        
-        /* Added styles for hidden sections */
-        .hidden-section {
-            display: none;
-        }
-        
-        .details-btn {
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .details-btn:hover {
-            opacity: 0.8;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/oee-dashboard.css') }}">
 </head>
 <body>
 <button type="button" class="rollback-btn" onclick="window.location.href='{{ route('combo') }}'">← Back</button>
@@ -213,8 +44,8 @@
                     <select name="machine" class="form-select">
                         <option value="">All Machines</option>
                         @foreach($machines as $m)
-                            <option value="{{ $m }}" {{ $machine == $m ? 'selected' : '' }}>{{ $m }}</option>
-                        @endforeach
+            <option value="{{ $m }}" {{ $machine == $m ? 'selected' : '' }}>{{ $m }}</option>
+        @endforeach
                     </select>
                 </div>
                 <div class="col-md-3" id="dateRangeContainer" style="{{ $range != 'custom' ? 'display:none;' : '' }}">
@@ -521,23 +352,23 @@
         const reasonsDurations = downtimeReasons.map(item => parseFloat(item.total_lost_time));
         const reasonsOccurrences = downtimeReasons.map(item => parseInt(item.occurrence_count));
         
-        // Pareto chart data
+        //pareto data
         const paretoData = @json($paretoData);
-        const machineNames = paretoData.map(item => item.nama_mesin);
-        const machineOEE = paretoData.map(item => parseFloat(item.avg_oee));
-        
-        // Sort data for pareto (descending order)
-        const sortedIndices = [...machineOEE.keys()].sort((a, b) => machineOEE[b] - machineOEE[a]);
-        const sortedMachineNames = sortedIndices.map(i => machineNames[i]);
-        const sortedMachineOEE = sortedIndices.map(i => machineOEE[i]);
-        
-        // Calculate cumulative percentage
-        const totalOEE = sortedMachineOEE.reduce((a, b) => a + b, 0);
-        let cumulative = 0;
-        const cumulativePercentages = sortedMachineOEE.map(value => {
-            cumulative += value;
-            return (cumulative / totalOEE) * 100;
-        });
+const machineIds = paretoData.map(item => item.no_mesin); // Changed from nama_mesin to no_mesin
+const machineOEE = paretoData.map(item => parseFloat(item.avg_oee));
+
+// Sort data for pareto (descending order)
+const sortedIndices = [...machineOEE.keys()].sort((a, b) => machineOEE[a] - machineOEE[b]); // Changed to sort from highest to lowest
+const sortedMachineIds = sortedIndices.map(i => machineIds[i]);
+const sortedMachineOEE = sortedIndices.map(i => machineOEE[i]);
+
+// Calculate cumulative percentage
+const totalOEE = sortedMachineOEE.reduce((a, b) => a + b, 0);
+let cumulative = 0;
+const cumulativePercentages = sortedMachineOEE.map(value => {
+    cumulative += value;
+    return (cumulative / totalOEE) * 100;
+});
         
         // Chart options
         const chartOptions = {
@@ -639,99 +470,98 @@
         
         // Pareto Chart
         new Chart(
-            document.getElementById('paretoChart'),
-            {
-                type: 'bar',
-                data: {
-                    labels: sortedMachineNames,
-                    datasets: [
-                        {
-                            label: 'Average OEE',
-                            data: sortedMachineOEE,
-                            backgroundColor: 'rgba(52, 152, 219, 0.7)',
-                            borderColor: 'rgba(52, 152, 219, 1)',
-                            borderWidth: 1,
-                            yAxisID: 'y'
-                        },
-                        {
-                            label: 'Cumulative %',
-                            data: cumulativePercentages,
-                            type: 'line',
-                            borderColor: '#e74c3c',
-                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
-                            borderWidth: 2,
-                            pointRadius: 3,
-                            yAxisID: 'y1'
-                        }
-                    ]
+    document.getElementById('paretoChart'),
+    {
+        type: 'bar',
+        data: {
+            labels: sortedMachineIds,
+            datasets: [
+                {
+                    label: 'Average OEE',
+                    data: sortedMachineOEE,
+                    backgroundColor: 'rgba(52, 152, 219, 0.7)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 1,
+                    yAxisID: 'y'
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            title: {
-                                display: true,
-                                text: 'OEE (%)'
-                            },
-                            max: 100,
-                            min: 0
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            title: {
-                                display: true,
-                                text: 'Cumulative %'
-                            },
-                            max: 100,
-                            min: 0,
-                            grid: {
-                                drawOnChartArea: false
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
+                {
+                    label: 'Cumulative %',
+                    data: cumulativePercentages,
+                    type: 'line',
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'OEE (%)'
                     },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.datasetIndex === 0) {
-                                        label += context.parsed.y.toFixed(1) + '%';
-                                    } else {
-                                        label += context.parsed.y.toFixed(1) + '%';
-                                    }
-                                    return label;
-                                }
+                    max: 100,
+                    min: 0
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Cumulative %'
+                    },
+                    max: 100,
+                    min: 0,
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
                             }
-                        },
-                        legend: {
-                            position: 'top'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Pareto Analysis of OEE by Machine',
-                            font: {
-                                size: 16
+                            if (context.datasetIndex === 0) {
+                                label += context.parsed.y.toFixed(1) + '%';
+                            } else {
+                                label += context.parsed.y.toFixed(1) + '%';
                             }
+                            return label;
                         }
+                    }
+                },
+                legend: {
+                    position: 'top'
+                },
+                title: {
+                    display: true,
+                    text: 'Pareto Analysis of OEE by No Machine',
+                    font: {
+                        size: 16
                     }
                 }
             }
-        );
-
+        }
+    }
+);
         // OEE Trend Chart
         new Chart(
             document.getElementById('oeeTrendChart'),

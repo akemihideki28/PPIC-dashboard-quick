@@ -20,14 +20,15 @@ class UtamaControl extends Controller
             ->table('hasil_end_shift');
 
         // Query untuk data pareto (dikelompokkan berdasarkan mesin)
+        // Changed to use no_mesin instead of nama_mesin
         $paretoQuery = DB::connection('laragon')
             ->table('hasil_end_shift')
-            ->select('nama_mesin')
+            ->select('no_mesin') // Changed from nama_mesin to no_mesin
             ->selectRaw('AVG(oee) as avg_oee')
             ->selectRaw('AVG(availability) as avg_availability')
             ->selectRaw('AVG(performance) as avg_performance')
             ->selectRaw('AVG(ok_ratio) as avg_quality')
-            ->groupBy('nama_mesin');
+            ->groupBy('no_mesin'); // Changed from nama_mesin to no_mesin
 
         // Query for downtime reasons data
         $downtimeQuery = DB::connection('laragon')
@@ -44,9 +45,9 @@ class UtamaControl extends Controller
         }
 
         if ($machine) {
-            $trendQuery->where('nama_mesin', $machine);
-            $paretoQuery->where('nama_mesin', $machine);
-            $downtimeQuery->where('nama_mesin', $machine);
+            $trendQuery->where('no_mesin', $machine); // Changed from nama_mesin to no_mesin
+            $paretoQuery->where('no_mesin', $machine); // Changed from nama_mesin to no_mesin
+            $downtimeQuery->where('no_mesin', $machine); // Changed from nama_mesin to no_mesin
         }
 
         // Apply date range filter for custom range
@@ -121,14 +122,14 @@ class UtamaControl extends Controller
         // Get detailed downtime information
         $lostTimeDetails = DB::connection('laragon')
             ->table('hasil_end_shift')
-            ->select('id', 'alasan', 'lost_time', 'lost_time_details', 'created_at', 'nama_mesin', 'shift');
+            ->select('id', 'alasan', 'lost_time', 'lost_time_details', 'created_at', 'no_mesin as mesin', 'shift'); // Changed nama_mesin to no_mesin with alias
             
         if ($shift) {
             $lostTimeDetails->where('shift', $shift);
         }
         
         if ($machine) {
-            $lostTimeDetails->where('nama_mesin', $machine);
+            $lostTimeDetails->where('no_mesin', $machine); // Changed from nama_mesin to no_mesin
         }
         
         if ($range === 'custom' && $startDate && $endDate) {
@@ -149,10 +150,10 @@ class UtamaControl extends Controller
         // Dapatkan daftar mesin untuk dropdown filter
         $machines = DB::connection('laragon')
             ->table('hasil_end_shift')
-            ->select('nama_mesin')
+            ->select('no_mesin') // Changed from nama_mesin to no_mesin
             ->distinct()
-            ->orderBy('nama_mesin')
-            ->pluck('nama_mesin');
+            ->orderBy('no_mesin') // Changed from nama_mesin to no_mesin
+            ->pluck('no_mesin'); // Changed from nama_mesin to no_mesin
             
         $lastUpdate = DB::connection('laragon')
             ->table('hasil_end_shift')
